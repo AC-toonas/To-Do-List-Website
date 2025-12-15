@@ -1,0 +1,23 @@
+body {
+    text-align: center;
+}
+
+li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 8px 12px;
+    cursor: pointer;
+}
+
+
+.done {
+    text-decoration: line-through;
+    color: gray;
+}
+
+#todoList {
+    width: 100%;
+    padding: 0;
+}
+
