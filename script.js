@@ -11,6 +11,8 @@ function renderTodos() {
 
     todos.forEach(function (todo, index) {
         let li = document.createElement("li")
+        li.classList.add("todo-" + todo.color)
+
 
         // text
         let textSpan = document.createElement("span")
@@ -26,6 +28,15 @@ function renderTodos() {
 
         let deleteBtn = document.createElement("button")
         deleteBtn.textContent = "❌"
+
+        let redBtn = document.createElement("button")
+        redBtn.textContent = "🟥"
+
+        let yellowBtn = document.createElement("button")
+        yellowBtn.textContent = "🟨"
+
+        let greenBtn = document.createElement("button")
+        greenBtn.textContent = "🟩"
 
         // done state
         if (todo.done) {
@@ -76,12 +87,38 @@ function renderTodos() {
         })
 
         // append buttons
+        li.appendChild(redBtn)
+        li.appendChild(yellowBtn)
+        li.appendChild(greenBtn)
+
         li.appendChild(upBtn)
         li.appendChild(downBtn)
         li.appendChild(deleteBtn)
 
         todolist.appendChild(li)
-    })
+    })  
+
+        redBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            todos[index].color = "red"
+            saveTodos()
+            renderTodos()
+        })
+
+        yellowBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            todos[index].color = "yellow"
+            saveTodos()
+            renderTodos()
+        })
+
+        greenBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            todos[index].color = "green"
+            saveTodos()
+            renderTodos()
+        })
+
 }
 
 
@@ -104,9 +141,11 @@ todoinput.addEventListener("keydown", function (event) {
 
         if (task !== "") {
             todos.push({
-                text: task,
-                done: false
+            text: task,
+            done: false,
+            color: "default"
             })
+
 
             todoinput.value = ""
             saveTodos()
