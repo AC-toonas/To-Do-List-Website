@@ -13,22 +13,12 @@ function renderTodos() {
         let li = document.createElement("li")
         li.classList.add("todo-" + todo.color)
 
-
         // text
         let textSpan = document.createElement("span")
         textSpan.textContent = todo.text
         li.appendChild(textSpan)
 
         // buttons
-        let upBtn = document.createElement("button")
-        upBtn.textContent = "⬆️"
-
-        let downBtn = document.createElement("button")
-        downBtn.textContent = "⬇️"
-
-        let deleteBtn = document.createElement("button")
-        deleteBtn.textContent = "❌"
-
         let redBtn = document.createElement("button")
         redBtn.textContent = "🟥"
 
@@ -37,6 +27,15 @@ function renderTodos() {
 
         let greenBtn = document.createElement("button")
         greenBtn.textContent = "🟩"
+
+        let upBtn = document.createElement("button")
+        upBtn.textContent = "⬆️"
+
+        let downBtn = document.createElement("button")
+        downBtn.textContent = "⬇️"
+
+        let deleteBtn = document.createElement("button")
+        deleteBtn.textContent = "❌"
 
         // done state
         if (todo.done) {
@@ -50,54 +49,7 @@ function renderTodos() {
             renderTodos()
         })
 
-        // move up
-        upBtn.addEventListener("click", function (event) {
-            event.stopPropagation()
-
-            if (index > 0) {
-                let temp = todos[index]
-                todos[index] = todos[index - 1]
-                todos[index - 1] = temp
-
-                saveTodos()
-                renderTodos()
-            }
-        })
-
-        // move down
-        downBtn.addEventListener("click", function (event) {
-            event.stopPropagation()
-
-            if (index < todos.length - 1) {
-                let temp = todos[index]
-                todos[index] = todos[index + 1]
-                todos[index + 1] = temp
-
-                saveTodos()
-                renderTodos()
-            }
-        })
-
-        // delete
-        deleteBtn.addEventListener("click", function (event) {
-            event.stopPropagation()
-            todos.splice(index, 1)
-            saveTodos()
-            renderTodos()
-        })
-
-        // append buttons
-        li.appendChild(redBtn)
-        li.appendChild(yellowBtn)
-        li.appendChild(greenBtn)
-
-        li.appendChild(upBtn)
-        li.appendChild(downBtn)
-        li.appendChild(deleteBtn)
-
-        todolist.appendChild(li)
-    })  
-
+        // recolour
         redBtn.addEventListener("click", function (event) {
             event.stopPropagation()
             todos[index].color = "red"
@@ -119,7 +71,46 @@ function renderTodos() {
             renderTodos()
         })
 
+        // move up
+        upBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            if (index > 0) {
+                [todos[index], todos[index - 1]] = [todos[index - 1], todos[index]]
+                saveTodos()
+                renderTodos()
+            }
+        })
+
+        // move down
+        downBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            if (index < todos.length - 1) {
+                [todos[index], todos[index + 1]] = [todos[index + 1], todos[index]]
+                saveTodos()
+                renderTodos()
+            }
+        })
+
+        // delete
+        deleteBtn.addEventListener("click", function (event) {
+            event.stopPropagation()
+            todos.splice(index, 1)
+            saveTodos()
+            renderTodos()
+        })
+
+        // append
+        li.appendChild(redBtn)
+        li.appendChild(yellowBtn)
+        li.appendChild(greenBtn)
+        li.appendChild(upBtn)
+        li.appendChild(downBtn)
+        li.appendChild(deleteBtn)
+
+        todolist.appendChild(li)
+    })
 }
+
 
 
 function saveTodos() {
